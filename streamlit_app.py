@@ -10,45 +10,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Add CSS for centering the title and adding spacing
-st.markdown(
-    """
-    <style>
-    .center-title {
-        text-align: center;
-        font-size: 2.5em;
-        margin-top: -75px; /* Remove 75px above the title */
-        margin-bottom: 40px; /* Add 40px below the title */
-    }
-    .spacer {
-        margin-bottom: 25px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Add JavaScript to determine screen width
-st.markdown(
-    """
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const width = window.innerWidth;
-        window.parent.postMessage({screenWidth: width}, '*');
-    });
-    </script>
-    """,
-    unsafe_allow_html=True
-)
-
-# Retrieve screen width from the query parameters
-screen_width = st.experimental_get_query_params().get('screenWidth', [None])[0]
-
 # Add a centered title to the app
 st.markdown('<h1 class="center-title">The Market Cycle Indicator</h1>', unsafe_allow_html=True)
 
 # Load the data from CSV file
-df = pd.read_csv('./data/Data_For_BMI_2.0.csv')
+df = pd.read_csv('./Data/Data For BMI 2.0.csv')
 
 # Convert 'Date' column to datetime format
 df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
@@ -93,7 +59,7 @@ deltas = {
     "Last Year": last_year_value
 }
 
-# Create a row with the progress bar on the left and the deltas in a 2x2 grid on the right if on desktop
+# Create a row with the progress bar on the left and the deltas in a 2x2 grid on the right
 col1, col2, col3 = st.columns([2, 1, 1])
 
 with col1:
@@ -129,41 +95,40 @@ with col1:
     else:
         st.error(description)
 
-# Only display deltas if on a non-mobile screen (e.g., larger than 768px)
-if screen_width is None or int(screen_width) > 768:
-    with col2:
-        # Last Week
-        if last_week_value is not None:
-            delta = latest_indicator_value - last_week_value
-            delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
-            st.metric(label="Last Week", value=last_week_value, delta=delta_str)
-        else:
-            st.metric(label="Last Week", value="N/A")
+# Display deltas in a 2x2 grid format using two columns
+with col2:
+    # Last Week
+    if last_week_value is not None:
+        delta = latest_indicator_value - last_week_value
+        delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
+        st.metric(label="Last Week", value=last_week_value, delta=delta_str)
+    else:
+        st.metric(label="Last Week", value="N/A")
 
-        # Last 6 Months
-        if last_six_months_value is not None:
-            delta = latest_indicator_value - last_six_months_value
-            delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
-            st.metric(label="Last 6 Months", value=last_six_months_value, delta=delta_str)
-        else:
-            st.metric(label="Last 6 Months", value="N/A")
+    # Last 6 Months
+    if last_six_months_value is not None:
+        delta = latest_indicator_value - last_six_months_value
+        delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
+        st.metric(label="Last 6 Months", value=last_six_months_value, delta=delta_str)
+    else:
+        st.metric(label="Last 6 Months", value="N/A")
 
-    with col3:
-        # Last Month
-        if last_month_value is not None:
-            delta = latest_indicator_value - last_month_value
-            delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
-            st.metric(label="Last Month", value=last_month_value, delta=delta_str)
-        else:
-            st.metric(label="Last Month", value="N/A")
+with col3:
+    # Last Month
+    if last_month_value is not None:
+        delta = latest_indicator_value - last_month_value
+        delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
+        st.metric(label="Last Month", value=last_month_value, delta=delta_str)
+    else:
+        st.metric(label="Last Month", value="N/A")
 
-        # Last Year
-        if last_year_value is not None:
-            delta = latest_indicator_value - last_year_value
-            delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
-            st.metric(label="Last Year", value=last_year_value, delta=delta_str)
-        else:
-            st.metric(label="Last Year", value="N/A")
+    # Last Year
+    if last_year_value is not None:
+        delta = latest_indicator_value - last_year_value
+        delta_str = f"+{delta}" if delta >= 0 else f"{delta}"
+        st.metric(label="Last Year", value=last_year_value, delta=delta_str)
+    else:
+        st.metric(label="Last Year", value="N/A")
 
 # Add spacing before the chart
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
