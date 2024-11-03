@@ -10,6 +10,25 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Add a custom JavaScript snippet to get the screen width
+st.markdown(
+    """
+    <script>
+        const width = window.innerWidth;
+        document.body.dataset.screenWidth = width;
+        window.parent.postMessage({screenWidth: width}, '*');
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
+# Extract screen width from session state
+if "screen_width" not in st.session_state:
+    st.session_state.screen_width = None
+
+# Use Streamlit's built-in `st.write` and JavaScript injection to retrieve the width
+screen_width = st.experimental_get_query_params().get("screen_width", [None])[0]
+if screen_width is None:
 # Add CSS for centering the title and adding spacing
 st.markdown(
     """
