@@ -10,43 +10,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Add a custom JavaScript snippet to get the screen width
-st.markdown(
-    """
-    <script>
-        const width = window.innerWidth;
-        document.body.dataset.screenWidth = width;
-        window.parent.postMessage({screenWidth: width}, '*');
-    </script>
-    """,
-    unsafe_allow_html=True
-)
-
-# Extract screen width from session state
-if "screen_width" not in st.session_state:
-    st.session_state.screen_width = None
-
-# Use Streamlit's built-in `st.write` and JavaScript injection to retrieve the width
-screen_width = st.experimental_get_query_params().get("screen_width", [None])[0]
-if screen_width is None:
-# Add CSS for centering the title and adding spacing
-st.markdown(
-    """
-    <style>
-    .center-title {
-        text-align: center;
-        font-size: 2.5em;
-        margin-top: -75px; /* Remove 75px above the title */
-        margin-bottom: 40px; /* Add 40px below the title */
-    }
-    .spacer {
-        margin-bottom: 25px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # Add a centered title to the app
 st.markdown('<h1 class="center-title">The Market Cycle Indicator</h1>', unsafe_allow_html=True)
 
