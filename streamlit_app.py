@@ -32,7 +32,7 @@ st.markdown(
 st.markdown('<h1 class="center-title">The Market Cycle Indicator</h1>', unsafe_allow_html=True)
 
 # Load the data from CSV file
-df = pd.read_csv('Data For BMI 2.0.csv')
+df = pd.read_csv('./Data/Data For BMI 2.0.csv')
 
 # Convert 'Date' column to datetime format
 df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
