@@ -5,7 +5,7 @@ import pandas as pd
 
 # Set the page configuration
 st.set_page_config(
-    page_title="The Market Cycle Indicator",
+    page_title="The Peak Predictor",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -29,7 +29,7 @@ st.markdown(
 )
 
 # Add a centered title to the app
-st.markdown('<h1 class="center-title">The Market Cycle Indicator</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="center-title">The Peak Predictor</h1>', unsafe_allow_html=True)
 
 # Load the data from CSV file
 df = pd.read_csv('Data For BMI 2.0.csv')
@@ -82,18 +82,18 @@ col1, col2, col3 = st.columns([2, 1, 1])
 
 with col1:
     # Add a "Thermometer" style widget for the current Market Cycle Indicator
-    st.subheader(f"Current Indicator Level: {latest_indicator_value}/100")
+    st.subheader(f"Current Value: {latest_indicator_value}/100")
 
     # Determine the color of the progress bar based on the market state
     if latest_indicator_value < 30:
         color = 'green'
-        description = f"The current market cycle indicator is {latest_indicator_value}, indicating a cool market phase."
+        description = f"The current value is {latest_indicator_value}, indicating a cool market phase."
     elif latest_indicator_value < 70:
         color = 'yellow'
-        description = f"The current market cycle indicator is {latest_indicator_value}, indicating a neutral market phase."
+        description = f"The current value is {latest_indicator_value}, indicating a neutral market phase."
     else:
         color = 'red'
-        description = f"The current market cycle indicator is {latest_indicator_value}, indicating a hot market phase."
+        description = f"The current value is {latest_indicator_value}, indicating a hot market phase."
 
     # Use HTML and CSS to create a colored progress bar
     progress_html = f"""
@@ -235,7 +235,7 @@ fig.add_trace(
             size=6,
             opacity=0.01  # Ensure markers are not visible but still present for hover info
         ),
-        name='Market Cycle Indicator',
+        name='The Peak Predictor',
         yaxis='y1',  # Reference to the primary y-axis
         hoverinfo='text',  # Include custom hover info
         text=[f"Date: {date.strftime('%Y-%m-%d')}<br>Indicator Value: {int(round(val))}" for date, val in zip(df['Date'], df['Indicator'])]  # Include date and indicator value in hover info
